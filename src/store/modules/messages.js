@@ -11,30 +11,30 @@ const getters = {
 }
 
 const actions = {
-  getMessages({ commit }) {
+  getMessages ({ commit }) {
     messageService.fetchMessages().then(messages => {
       commit('setMessages', messages)
     })
   },
-  addMessage({ commit }, message) {
+  addMessage ({ commit }, message) {
     messageService.postMessage(message).then(() => {
       commit('addMessage', message)
     })
   },
-  deleteMessage({ commit }, msgId) {
+  deleteMessage ({ commit }, msgId) {
     messageService.deleteMessage(msgId)
     commit('deleteMessage', msgId)
   }
 }
 
 const mutations = {
-  setMessages(state, messages) {
+  setMessages (state, messages) {
     state.messages = messages
   },
-  addMessage(state, message) {
+  addMessage (state, message) {
     state.messages.push(message)
   },
-  deleteMessage(state, msgId) {
+  deleteMessage (state, msgId) {
     state.messages = state.messages.filter(obj => obj.pk !== msgId)
   }
 }

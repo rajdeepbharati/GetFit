@@ -1,0 +1,108 @@
+{% extends 'vigorit/base.html' %}
+
+{% load static %}
+
+{% block title %}VigorIt{% endblock %}
+
+{% block styling %}
+<style>
+    th,
+    td {
+        padding: 10px;
+        font-size: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="background-color: white;" class="container">
+    <!-- Representation of bmi -->
+    <div style="margin-left: 10%;font-weight: bold;">
+        <span style="font-size: 30px;">Your BMI Is . . . . .</span>
+        <span style="font-size: 150px;color: #00a19b;margin-left: 2%;">{{bmi}}</span>
+        <span style="font-size: 20px;">kg/m²</span>
+        <span style="font-size: 30px;margin-left: 5%;">Congrats! You have balanced weight</span>
+    </div>
+
+    <!-- Opions of maintaining, gaining and loosing weight-->
+    <div style="margin-top: 2%;padding-bottom: 10%;padding-top:5%">
+        <div>
+            <p style="float:left;width:30%;border: 1px solid white;text-align: center;"
+                class="shadow p-3 mb-5 bg-white rounded">I Want To Maintain My Weight<br><button style="margin-top: 7%;"
+                    type="button" class="btn btn-info">Generate Diet Plan</button></p>
+        </div>
+
+        <div>
+            <p style="margin-left: 5%;float:left;width:30%;border: 1px solid white;text-align: center;"
+                class="shadow p-3 mb-5 bg-white rounded">I Want To Gain 1 Pound A Week<br><button
+                    style="margin-top: 7%;" type="button" class="btn btn-info">Generate Diet Plan</button></p>
+        </div>
+
+        <div>
+            <p style="float:right;width:30%;border: 1px solid white;text-align: center;"
+                class="shadow p-3 mb-5 bg-white rounded">I Want To Loose 1 Pound A Week<br><button
+                    style="margin-top: 7%;" type="button" class="btn btn-info">Generate Diet Plan</button></p>
+        </div>
+    </div>
+
+    <div style="padding-top:5%;margin-top: 7%;">
+        <p style="font-size: 35px;text-align: center;color: #027d6a;">Today's 2500 Calories Diet Plan To Maintain Weight
+            IS...</p>
+    </div>
+
+
+    <!-- Diet Plan -->
+
+    <div style="background-color: white;margin-bottom:10%;padding-top: 7%;">
+
+        <hr>
+        <table style="display:inline-block;margin-left:15%; margin-right:15%;width:70%;">
+            <thead>
+                <tr>
+                    <th> </th>
+                    <th> </th>
+                    <th>Calories</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Breakfast</th>
+                    <td>2 Pesto Scrambled Egg Whites, 2 Apples</td>
+                    <td>539</td>
+
+                </tr>
+                <tr>
+                    <th>Lunch</th>
+                    <td>Peanut Butter and Honey Toast, Cottage Cheese with Banana</td>
+                    <td>529</td>
+
+                </tr>
+                <tr>
+                    <th>Snack</th>
+                    <td>Granola(2 cups)</td>
+                    <td>277</td>
+
+                </tr>
+                <tr>
+                    <th>Dinner</th>
+                    <td>2 Orange Seitan, Cheese Cauliflower Puree</td>
+                    <td>661</td>
+
+                </tr>
+
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <td style="font-weight:bold;">2007</td>
+
+                </tr>
+
+            </tbody>
+        </table>
+        <hr>
+        <button style="width:20%;margin-right: 40%;margin-left: 40%;margin-bottom: 5%;margin-top: 5%;" type="button"
+            class="btn btn-info">Regenerate Diet Plan</button>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'vigorit/base.html' %}
+
+{% load static %}
+
+{% block title %}VigorIt{% endblock %}
+
+{% block styling %}
+{% endblock %}
+
+{% block content %}
+<h2>Login</h2>
+<form method="post" action="{% url 'vigorit:user_login' %}">
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" name="username" placeholder="Username" />
+    <label for="password">Password:</label>
+    <input type="password" name="password" placeholder="Password" />
+    <input type="submit" name="" value="Login" />
+</form>
+{% endblock %}

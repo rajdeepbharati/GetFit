@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 
 from . import views
 
@@ -7,6 +8,10 @@ app_name = 'vigorit'
 urlpatterns = [
     path('', views.index, name='index'),
     path('register/', views.register, name='register'),
-    path('user_login/', views.user_login, name='user_login'),
-    # path('delivery/', views.delivery, name='delivery'),
+    # {'template_name': 'vigorit/login.html'},
+    # path('login/', views.user_login, name='login'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+
+    # {'template_name': 'vigorit/logout.html', 'next_page': '/login'},
+    path('logout/', views.user_logout, name='logout')
 ]

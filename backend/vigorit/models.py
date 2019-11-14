@@ -13,6 +13,7 @@ class AppUser(models.Model):
     weight = models.IntegerField(null=True)  # in kg
     sex = models.SmallIntegerField(null=True)  # 0:male, 1:female, 2:others
     bmi = models.DecimalField(decimal_places=2, max_digits=4, null=True)
+    health = models.CharField(max_length=11, null=True)
 
 
 # CHOICES = [('-woman', '1500'), ('-man ~woman', '2000'),

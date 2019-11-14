@@ -11,31 +11,186 @@
         padding: 10px;
         font-size: 20px;
     }
+
+    body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background: rgb(250, 250, 250);
+    }
+
+    main {
+        margin-top: 80px;
+    }
+
+    .boxo-container {
+        width: 100%;
+        height: 300px;
+        display: flex;
+        background: white;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        box-shadow: -2px 2px 10px rgba(39, 39, 39, 0.134);
+        border-radius: 25px;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    .boxo-container:hover {
+        box-shadow: 0px 0px 2px rgba(39, 39, 39, 0.263);
+        /* transform: rotateX(185deg); */
+
+    }
+
+    .boxo-container:hover .boxo-title {
+        color: red;
+        font-size: 2em;
+    }
+
+    .boxo-container:hover .boxo {
+        transform: scale(0.9, 0.9);
+    }
+
+    .boxo-title {
+        margin-top: 8px;
+        font-size: 1.7em;
+        color: rgb(90, 90, 90);
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 900;
+        transition: all 0.2s;
+    }
+
+    .boxo {
+        background: rgb(255, 255, 255);
+        background-size: cover;
+        background-position: center;
+        width: 200px;
+        height: 200px;
+        transition: all 0.2s;
+    }
+
+    .loading {
+        margin-left: 50%;
+        margin-right: 50%;
+    }
+
+    #gain {
+        background: url("/static/images/builder.png");
+        color: white;
+        background-size: cover;
+        background-position: center;
+        width: 200px;
+        height: 200px;
+    }
+
+    #maintain {
+        background: url("/static/images/yoga.png");
+        color: white;
+        background-size: cover;
+        background-position: center;
+        width: 200px;
+        height: 200px;
+    }
+
+    #lose {
+        background: url("/static/images/runner.png");
+        color: white;
+        background-size: cover;
+        background-position: center;
+        width: 200px;
+        height: 200px;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
+<div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">
+            <img style="height: 50px;" src="{% static 'images/logo.png' %}" alt="">
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
 <div style="background-color: white;" class="container">
     <!-- Representation of bmi -->
     <div style="margin-left: 10%;font-weight: bold;">
+        <h1>hi {{name}}</h1>
+
         <span style="font-size: 30px;">Your BMI Is . . . . .</span>
         <span style="font-size: 150px;color: #00a19b;margin-left: 2%;">{{bmi}}</span>
         <span style="font-size: 20px;">kg/m²</span>
-        <span style="font-size: 30px;margin-left: 5%;">Congrats! You have balanced weight</span>
+        <br>
+        <span style="font-size: 30px;margin:0 auto;">
+            {% ifequal "underweight" health %}
+            You're underweight :( Please eat more!
+            {% endifequal %}
+            {% ifequal "healthy" health %}
+            Congrats! You have a healthy weight
+            {% endifequal %}
+            {% ifequal "overweight" health %}
+            You're overweight. You should probably reduce your diet!
+            {% endifequal %}
+            {% ifequal "obese" health %}
+            You're obese!! Please don't eat so much!
+            {% endifequal %}
+        </span>
     </div>
-
+    <main>
+        <div class="container" style="padding:0; margin-top:40px;">
+            <div class="row" style="padding: 0;">
+                <div class="col-sm-4">
+                    <div class="boxo-container">
+                        <div class="boxo" id="gain">
+                        </div>
+                        <div class="boxo-title">Gain 1lb/week</div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="boxo-container">
+                        <div class="boxo" id="maintain">
+                        </div>
+                        <div class="boxo-title">Maintain weight</div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="boxo-container">
+                        <div class="boxo" id="lose">
+                        </div>
+                        <div class="boxo-title">Lose 1lb/week</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <br><br>
     <!-- Opions of maintaining, gaining and loosing weight-->
-    <div style="margin-top: 2%;padding-bottom: 10%;padding-top:5%">
+    <!-- <div style="margin-top: 2%;padding-bottom: 10%;padding-top:5%">
         <div>
             <p style="float:left;width:30%;border: 1px solid white;text-align: center;"
-                class="shadow p-3 mb-5 bg-white rounded">I Want To Maintain My Weight<br><button style="margin-top: 7%;"
-                    type="button" class="btn btn-info">Generate Diet Plan</button></p>
+                class="shadow p-3 mb-5 bg-white rounded">I Want To Gain 1 Pound A Week<br><button
+                    style="margin-top: 7%;" type="button" class="btn btn-info">Generate Diet Plan</button></p>
         </div>
 
         <div>
             <p style="margin-left: 5%;float:left;width:30%;border: 1px solid white;text-align: center;"
-                class="shadow p-3 mb-5 bg-white rounded">I Want To Gain 1 Pound A Week<br><button
-                    style="margin-top: 7%;" type="button" class="btn btn-info">Generate Diet Plan</button></p>
+                class="shadow p-3 mb-5 bg-white rounded">I Want To Maintain My Weight<br><button style="margin-top: 7%;"
+                    type="button" class="btn btn-info">Generate Diet Plan</button></p>
         </div>
 
         <div>
@@ -43,6 +198,10 @@
                 class="shadow p-3 mb-5 bg-white rounded">I Want To Loose 1 Pound A Week<br><button
                     style="margin-top: 7%;" type="button" class="btn btn-info">Generate Diet Plan</button></p>
         </div>
+    </div><br><br> -->
+    <div class="loading">
+        <span class="spinner-border text-success" role="status"> </span>
+        <!-- <span style="font-size: 18px;"> Fetching your movies...</span> -->
     </div>
 
     <div style="padding-top:5%;margin-top: 7%;">
@@ -69,7 +228,6 @@
                     <th>Breakfast</th>
                     <td>2 Pesto Scrambled Egg Whites, 2 Apples</td>
                     <td>539</td>
-
                 </tr>
                 <tr>
                     <th>Lunch</th>
@@ -81,7 +239,6 @@
                     <th>Snack</th>
                     <td>Granola(2 cups)</td>
                     <td>277</td>
-
                 </tr>
                 <tr>
                     <th>Dinner</th>
@@ -94,7 +251,6 @@
                     <th></th>
                     <td></td>
                     <td style="font-weight:bold;">2007</td>
-
                 </tr>
 
             </tbody>
@@ -105,4 +261,9 @@
 
     </div>
 </div>
+<script>
+    document.getElementById("#gain").addEventListener('click', (e) => {
+
+    })
+</script>
 {% endblock %}

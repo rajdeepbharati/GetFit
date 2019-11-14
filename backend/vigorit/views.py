@@ -4,6 +4,7 @@ from django.shortcuts import render
 from .forms import UserForm, AppUserForm
 from .models import AppUser
 from django.contrib.auth import authenticate, login, logout
+# from django.contrib.auth.views import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -20,17 +21,33 @@ def calculate_bmi(appUser):
     appUser.save()
 
 
-@login_required
+def check_health(appUser):
+    if appUser.bmi < 18.5:
+        health = 'underweight'
+    elif appUser.bmi >= 18.5 and appUser.bmi < 25:
+        health = 'healthy'
+    elif appUser.bmi >= 25 and appUser.bmi < 30:
+        health = 'overweight'
+    else:
+        health = 'obese'
+    appUser.health = health
+    appUser.save()
+
+
+@login_required(redirect_field_name = '/login')
 def index(request):
     # print(request.user)
     if request.user.is_authenticated:
         appUser = AppUser.objects.get(user=request.user)
-        print(appUser.bmi)
         calculate_bmi(appUser)
-        print(appUser.bmi)
+        check_health(appUser)
         context = {
-            'bmi': appUser.bmi
+            # 'username':appUser.username,
+            'name': appUser.name,
+            'bmi': appUser.bmi,
+            'health': appUser.health
         }
+        print(appUser.name)
     else:
         print(request.user)
     return render(request, 'vigorit/index.html', context)
@@ -39,35 +56,53 @@ def index(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    # return render(request, 'vigorit/login.html')
+    return redirect('/login')
+    # return HttpResponseRedirect(reverse('index'))
 
 
 def register(request):
-    registered = False
     if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
-        AppUser_form = AppUserForm(data=request.POST)
-        if user_form.is_valid():  # and AppUser_form.is_valid():
-            user = user_form.save(commit=False)
-            user.set_password(user.password)   # Is this neccesary ??
-            user.save()
-            # appUser = AppUser_form.save(commit=False)
-            # appUser.user_id = user
-
-            # appUser.save()
-            registered = True
-        else:
-            print(user_form.errors, AppUser_form.errors)
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('vigorit.index')
     else:
-        user_form = UserForm()
-        AppUser_form = AppUserForm()
-    return render(request, 'vigorit/registration.html',
-                  {'user_form': user_form,
-                   #    'AppUser_form': AppUser_form,
-                   'registered': registered})
+        form = UserForm()
+    return render(request, 'vigorit/registration.html', {'form': form})
+
+
+# def register(request):
+#     registered = False
+#     if request.method == 'POST':
+#         user_form = UserForm(data=request.POST)
+#         AppUser_form = AppUserForm(data=request.POST)
+#         if user_form.is_valid():  # and AppUser_form.is_valid():
+#             user = user_form.save(commit=False)
+#             user.set_password(user.password)   # Is this neccesary ??
+#             user.save()
+#             # appUser = AppUser_form.save(commit=False)
+#             # appUser.user_id = user
+
+#             # appUser.save()
+#             registered = True
+#         else:
+#             print(user_form.errors, AppUser_form.errors)
+#     else:
+#         user_form = UserForm()
+#         AppUser_form = AppUserForm()
+#     return render(request, 'vigorit/registration.html',
+#                   {'user_form': user_form,
+#                    #    'AppUser_form': AppUser_form,
+#                    'registered': registered})
 
 
 def user_login(request):
+    loggedIn = False
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -75,6 +110,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
+                loggedIn = True
                 return redirect('/')
                 # return HttpResponseRedirect(reverse('index'))
             else:
@@ -83,6 +119,7 @@ def user_login(request):
             print("Someone tried to login and failed.")
             print("They used username: {} and password: {}".format(
                 username, password))
+            loggedIn = False
             return HttpResponse("Invalid login details given")
     else:
-        return render(request, 'vigorit/login.html', {})
+        return render(request, 'vigorit/login.html', {'loggedIn': loggedIn})

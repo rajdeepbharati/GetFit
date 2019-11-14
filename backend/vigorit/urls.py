@@ -13,5 +13,6 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
 
     # {'template_name': 'vigorit/logout.html', 'next_page': '/login'},
-    path('logout/', views.user_logout, name='logout')
+    path('logout/', views.user_logout, name='logout'),
+    path('form/', views.data_form, name='form')
 ]

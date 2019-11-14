@@ -36,6 +36,31 @@ def check_health(appUser):
     appUser.save()
 
 
+@login_required(redirect_field_name='/')
+def data_form(request):
+    if request.method == 'POST':
+        form = AppUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            name = form.cleaned_data.get('name')
+            age = form.cleaned_data.get('age')
+            height = form.cleaned_data.get('height')
+            weight = form.cleaned_data.get('weight')
+            sex = form.cleaned_data.get('sex')
+            # username = form.cleaned_data.get('username')
+            # raw_password = form.cleaned_data.get('password')
+            # user = authenticate(username=username, password=raw_password)
+            # login(request, user)
+            print('good job')
+            return redirect('vigorit.index')
+        else:
+            print('form not valid')
+    else:
+        print('bad')
+        form = UserForm()
+    return render(request, 'vigorit/form.html', {'form': form})
+
+
 @login_required(redirect_field_name='/login')
 def index(request):
     # print(request.user)
@@ -45,19 +70,19 @@ def index(request):
         check_health(appUser)
         diets = Diet.objects.all()
         if appUser.health == 'healthy':  # and appUser.sex==1:
-            recommend = 'maintain'
+            recommend = 'maintain weight'
             if appUser.sex == 0:  # male
                 calories = 2500
             else:  # woman
                 calories = 2000
         elif appUser.health == 'underweight':
-            recommend = 'eat more'
+            recommend = 'increase weight'
             if appUser.sex == 0:
                 calories = 3000
             else:
                 calories = 2500
         elif appUser.health == 'overweight' or appUser.health == 'obese':
-            recommend = 'eat less'
+            recommend = 'reduce weight'
             if appUser.sex == 0:
                 calories = 2000
             else:
@@ -68,9 +93,9 @@ def index(request):
         # rds=filter(lambda x: x.id in ids, recommendedDiets)
         # recommendedDiets=rds
         print(recommendedDiets)
-        rds=list(recommendedDiets)
+        rds = list(recommendedDiets)
         print(rds)
-        v=rds[random.choice(range(recommendedDiets.count()))]
+        v = rds[random.choice(range(recommendedDiets.count()))]
         print(v)
         context = {
             # 'username':appUser.username,
@@ -80,7 +105,7 @@ def index(request):
             'recommend': recommend,
             'diets': diets,
             'sex': appUser.sex,
-            'calories':calories,
+            'calories': calories,
             'recommendedDiet': v
         }
         print(appUser.name)

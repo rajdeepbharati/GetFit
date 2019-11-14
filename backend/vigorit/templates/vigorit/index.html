@@ -210,11 +210,10 @@
     <div style="padding-top:5%;margin-top: 7%;">
         <p style="font-size: 35px;text-align: center;color: #027d6a;">Today's
             {{calories}}
-            Calories Diet Plan To Maintain Weight
-            IS...</p>
+            Calories Diet Plan To {{recommend}}
+            is...</p>
     </div>
 
-    {{recommendedDiet.breakfast}}
     <!-- Diet Plan -->
 
     <div style="background-color: white;margin-bottom:10%;padding-top: 7%;">
@@ -255,7 +254,9 @@
                 <tr>
                     <th></th>
                     <td></td>
-                    <td style="font-weight:bold;">{{recommendedDiet.lunchcal|add:recommendedDiet.bfcal|add:recommendedDiet.snackcal|add:recommendedDiet.dinnercal}}</td>
+                    <td style="font-weight:bold;">
+                        {{recommendedDiet.lunchcal|add:recommendedDiet.bfcal|add:recommendedDiet.snackcal|add:recommendedDiet.dinnercal}}
+                    </td>
                 </tr>
 
             </tbody>

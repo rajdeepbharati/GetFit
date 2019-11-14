@@ -107,7 +107,7 @@
 
 {% block content %}
 <div>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md " style="background-color: #00ebc7;">
         <a class="navbar-brand" href="/">
             <img style="height: 50px;" src="{% static 'images/logo.png' %}" alt="">
         </a>
@@ -118,10 +118,11 @@
         <div class="navbar-collapse collapse" id="navbarCollapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    <a style="color: #fff;" class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
+                    <a style="color: #fff;" class="nav-link" href="/logout">Logout <span
+                            class="sr-only">(current)</span></a>
                 </li>
             </ul>
         </div>
@@ -133,7 +134,7 @@
         <h1>hi {{name}}</h1>
 
         <span style="font-size: 30px;">Your BMI Is . . . . .</span>
-        <span style="font-size: 150px;color: #00a19b;margin-left: 2%;">{{bmi}}</span>
+        <span style="font-size: 130px;color: #00a19b;margin-left: 2%;">{{bmi}}</span>
         <span style="font-size: 20px;">kg/m²</span>
         <br>
         <span style="font-size: 30px;margin:0 auto;">
@@ -199,13 +200,17 @@
                     style="margin-top: 7%;" type="button" class="btn btn-info">Generate Diet Plan</button></p>
         </div>
     </div><br><br> -->
+    <h2>Recommended: {{recommend}} </h2>
     <div class="loading">
         <span class="spinner-border text-success" role="status"> </span>
         <!-- <span style="font-size: 18px;"> Fetching your movies...</span> -->
     </div>
 
+
     <div style="padding-top:5%;margin-top: 7%;">
-        <p style="font-size: 35px;text-align: center;color: #027d6a;">Today's 2500 Calories Diet Plan To Maintain Weight
+        <p style="font-size: 35px;text-align: center;color: #027d6a;">Today's
+            {{calories}}
+            Calories Diet Plan To Maintain Weight
             IS...</p>
     </div>
 

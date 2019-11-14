@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.shortcuts import render
 from .forms import UserForm, AppUserForm
-from .models import AppUser
+from .models import AppUser, Diet
 from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.views import logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -34,18 +34,42 @@ def check_health(appUser):
     appUser.save()
 
 
-@login_required(redirect_field_name = '/login')
+@login_required(redirect_field_name='/login')
 def index(request):
     # print(request.user)
     if request.user.is_authenticated:
         appUser = AppUser.objects.get(user=request.user)
         calculate_bmi(appUser)
         check_health(appUser)
+        diets = Diet.objects.all()
+        if appUser.health == 'healthy':  # and appUser.sex==1:
+            recommend = 'maintain'
+            if appUser.sex == 0:  # male
+                calories = 2500
+            else:  # woman
+                calories = 2000
+        elif appUser.health == 'underweight':
+            recommend = 'eat more'
+            if appUser.sex == 0:
+                calories = 3000
+            else:
+                calories = 2500
+        elif appUser.health == 'overweight' or appUser.health == 'obese':
+            recommend = 'eat less'
+            if appUser.sex == 0:
+                calories = 2000
+            else:
+                calories = 1500
+        print(diets)
         context = {
             # 'username':appUser.username,
             'name': appUser.name,
             'bmi': appUser.bmi,
-            'health': appUser.health
+            'health': appUser.health,
+            'recommend': recommend,
+            'diets': diets,
+            'sex': appUser.sex,
+            'calories':calories
         }
         print(appUser.name)
     else:

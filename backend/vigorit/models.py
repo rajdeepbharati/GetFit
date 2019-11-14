@@ -28,6 +28,10 @@ class Diet(models.Model):
     lunch = models.CharField(max_length=500)
     snack = models.CharField(max_length=500)
     dinner = models.CharField(max_length=500)
+    bfcal=models.IntegerField(default=0)
+    lunchcal=models.IntegerField(default=0)
+    snackcal=models.IntegerField(default=0)
+    dinnercal=models.IntegerField(default=0)
 
 
 @receiver(post_save, sender=User)

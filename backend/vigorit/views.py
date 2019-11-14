@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
 import math
+import random
+import itertools
 
 from django.contrib.auth.models import User
 
@@ -60,7 +62,16 @@ def index(request):
                 calories = 2000
             else:
                 calories = 1500
-        print(diets)
+        # print(diets)
+        recommendedDiets = Diet.objects.filter(calories=calories)
+        # ids=set(rd.id for rd in recommendedDiets)
+        # rds=filter(lambda x: x.id in ids, recommendedDiets)
+        # recommendedDiets=rds
+        print(recommendedDiets)
+        rds=list(recommendedDiets)
+        print(rds)
+        v=rds[random.choice(range(recommendedDiets.count()))]
+        print(v)
         context = {
             # 'username':appUser.username,
             'name': appUser.name,
@@ -69,7 +80,8 @@ def index(request):
             'recommend': recommend,
             'diets': diets,
             'sex': appUser.sex,
-            'calories':calories
+            'calories':calories,
+            'recommendedDiet': v
         }
         print(appUser.name)
     else:

@@ -214,7 +214,7 @@
             IS...</p>
     </div>
 
-
+    {{recommendedDiet.breakfast}}
     <!-- Diet Plan -->
 
     <div style="background-color: white;margin-bottom:10%;padding-top: 7%;">
@@ -231,31 +231,31 @@
             <tbody>
                 <tr>
                     <th>Breakfast</th>
-                    <td>2 Pesto Scrambled Egg Whites, 2 Apples</td>
-                    <td>539</td>
+                    <td>{{recommendedDiet.breakfast}}</td>
+                    <td>{{recommendedDiet.bfcal}}</td>
                 </tr>
                 <tr>
                     <th>Lunch</th>
-                    <td>Peanut Butter and Honey Toast, Cottage Cheese with Banana</td>
-                    <td>529</td>
+                    <td>{{recommendedDiet.lunch}}</td>
+                    <td>{{recommendedDiet.lunchcal}}</td>
 
                 </tr>
                 <tr>
                     <th>Snack</th>
-                    <td>Granola(2 cups)</td>
-                    <td>277</td>
+                    <td>{{recommendedDiet.snack}}</td>
+                    <td>{{recommendedDiet.snackcal}}</td>
                 </tr>
                 <tr>
                     <th>Dinner</th>
-                    <td>2 Orange Seitan, Cheese Cauliflower Puree</td>
-                    <td>661</td>
+                    <td>{{recommendedDiet.dinner}}</td>
+                    <td>{{recommendedDiet.dinnercal}}</td>
 
                 </tr>
 
                 <tr>
                     <th></th>
                     <td></td>
-                    <td style="font-weight:bold;">2007</td>
+                    <td style="font-weight:bold;">{{recommendedDiet.lunchcal|add:recommendedDiet.bfcal|add:recommendedDiet.snackcal|add:recommendedDiet.dinnercal}}</td>
                 </tr>
 
             </tbody>
